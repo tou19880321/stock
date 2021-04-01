@@ -12,8 +12,10 @@ RUN pip3 install websockets
 RUN pip3 --default-timeout=100 install -U lxml
 RUN pip3 install requests
 RUN pip3 install lxml
+RUN pip3 install fastapi uvicorn
 
 EXPOSE 80
-#CMD python3 server.py
+CMD uvicorn api:app --host 0.0.0.0 --port 80
+#CMD python3 api.py
 #RUN pip3 install pipenv
 #RUN pipenv install --dev
