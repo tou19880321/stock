@@ -1,7 +1,12 @@
 from twstock import realtime
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Request
 from typing import List
+from pydantic import BaseModel
 app = FastAPI()
+
+class Item(BaseModel):
+    id_list: list
+
 
 def _format_stock_info(data) -> dict:
     result = []
@@ -20,7 +25,7 @@ def _format_stock_info(data) -> dict:
     return result
 
 
-@app.get('/stock')
+@app.post('/stock')
 
-def stock(id_list: List[str] = Query(None)):
-    return _format_stock_info(realtime.get(id_list))
+def stock(item: Item):
+    return _format_stock_info(realtime.get(item.id_list))
